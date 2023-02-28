@@ -29,8 +29,11 @@ function draw(x,y){
             let shape = createShape(x, y, 50, 50);
             shape.getCenter();
             console.table(shape);
-            ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+            //ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
+            ctx.fillStyle = shape.colour;
             ctx.fillRect(shape.x, shape.y, shape.height, shape.width);
+
+           // shape.colour();
             
           } else {
             // canvas-unsupported code here
