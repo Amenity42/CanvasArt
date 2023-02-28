@@ -1,4 +1,4 @@
-class shape {
+class Shape {
       constructor(x, y, w, h) {
             this.x = x;
             this.y = y;
@@ -11,4 +11,4 @@ class shape {
       }
 }
 
-export default { shape };
+export default Shape;

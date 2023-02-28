@@ -1,10 +1,14 @@
 
-import shape  from "./shape.js";
+import Shape  from "./shape.js";
 
 const canvas = document.getElementById("testingCanvas");
+canvas.width = 2000;
+canvas.height = 2000;
 
+console.log(`js loaded`);
 //Get X and Y coordinates of mouse click on canvas
 canvas.addEventListener('click', function(e) {
+      //console.log(`canvas width: ${canvas.width} canvas height: ${canvas.height}`);
       var rect = canvas.getBoundingClientRect();
       var x = e.clientX - rect.left;
       var y = e.clientY - rect.top;
@@ -15,13 +19,11 @@ canvas.addEventListener('click', function(e) {
 }, false);
 
 function draw(x,y){
-      alert(`test`);
+      //alert(`test`);
 
       if (canvas.getContext) {
             const ctx = canvas.getContext("2d");
             //Seems to act as a resolution multiplier
-            canvas.width = 2000;
-            canvas.height = 2000;
 
             //Draw a rectangle
             let shape = createShape(x, y, 50, 50);
@@ -49,7 +51,7 @@ function getMousePos(canvas, evt) {
   }
 
 function createShape(x, y ,w, h){
-      let newShape = new shape(x, y, w, h);
+      let newShape = new Shape(x, y, w, h);
       return newShape;
 }
 
