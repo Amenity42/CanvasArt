@@ -6,6 +6,7 @@ class Shape {
             this.width = w;
             this.height = h;
             this.colour = this.colour();
+            this.condition = false;
       }
       getCenter() {
             this.x = this.x - this.width / 2,
@@ -21,6 +22,8 @@ class Shape {
             console.log(this.colour);
             return(colour);
       }
+
+
 
 }
 
