@@ -1,29 +1,33 @@
-
+//@ts-check
 import Shape  from "./shape.js";
 import Mapping from "./mapping.js";
 
 const canvas = document.getElementById("testingCanvas");
-canvas.width = 2000;
-canvas.height = 2000;
-
-//Create a new mapping object
 let loadedMap = new Mapping();
 
-readFromLocal();
+if(canvas){
+      //       canvas.width = 2000;
+      // canvas.height = 2000;
 
-console.log(`js loaded`);
-//Get X and Y coordinates of mouse click on canvas
-canvas.addEventListener('click', function(e) {
-      //console.log(`canvas width: ${canvas.width} canvas height: ${canvas.height}`);
-      var rect = canvas.getBoundingClientRect();
-      var x = e.clientX - rect.left;
-      var y = e.clientY - rect.top;
+      //Create a new mapping object
 
-     let pos = getMousePos(canvas, e);
+      readFromLocal();
 
-      draw(pos.x, pos.y);
-}, false);
+      console.log(`js loaded`);
+      //*Get X and Y coordinates of mouse click on canvas
+      canvas.addEventListener('click', function(e) {
+            //console.log(`canvas width: ${canvas.width} canvas height: ${canvas.height}`);
+            var rect = canvas.getBoundingClientRect();
+            var x = e.clientX - rect.left;
+            var y = e.clientY - rect.top;
 
+      let pos = getMousePos(canvas, e);
+
+            draw(pos.x, pos.y);
+      }, false);
+}
+
+//*Draws a shape on the canvas
 function draw(x,y, readFlag){
       //alert(`test`);
 
@@ -55,7 +59,7 @@ function draw(x,y, readFlag){
           }
 }
 
-
+//*Gets the mouse position on the canvas
 function getMousePos(canvas, evt) {
       
       var rect = canvas.getBoundingClientRect();
@@ -66,12 +70,13 @@ function getMousePos(canvas, evt) {
       };
      
   }
-
+//*Creates a new shape object
 function createShape(x, y ,w, h){
       let newShape = new Shape(x, y, w, h);
       return newShape;
 }
 
+//*Saves data to local storage
 function saveToLocal(item){
      // debugger;
       //Save the canvas to local storage
@@ -88,11 +93,12 @@ function saveToLocal(item){
       }
       //console.table(loadedMap.map);
 }
-
+//*Reads data from local storage and updates the map object
 function readFromLocal() {
 
       let readflag = true;
       console.log(`Read Data From Local Storage`);
+  
      let mapData = JSON.parse(localStorage.getItem("canvas"));
 
      //Update map object with data from local storage
@@ -119,6 +125,7 @@ function readFromLocal() {
       readflag = false;
 }
 
+//*Used to reverse the centerpoint calculation when adding new shape to canvas
 function reverseCenterpoint(element){
       element.x = element.x + element.width / 2;
       element.y = element.y + element.height / 2;   
