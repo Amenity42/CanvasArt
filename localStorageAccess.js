@@ -1,5 +1,8 @@
+import { canvas, loadedMap } from './logic.js';
+
+
 //*Saves data to local storage
-function saveToLocal(item, loadedMap){
+function saveToLocal(item){
       // debugger;
        //Save the canvas to local storage
        //readFromLocal();
@@ -13,7 +16,7 @@ function saveToLocal(item, loadedMap){
        //console.table(loadedMap.map);
  }
  //*Reads data from local storage and updates the map object
- function readFromLocal(loadedMap, draw, reverseCenterpoint, canvas) {
+ function readFromLocal(draw, reverseCenterpoint) {
  
        let readflag = true;
        

@@ -4,14 +4,14 @@ import Mapping from "./mapping.js";
 import {saveToLocal, readFromLocal} from "./localStorageAccess.js";
 import {draw, clearCanvas} from "./canvasAction.js";
 
-const canvas = document.getElementById("testingCanvas");
-const debugMessage = document.getElementById("outputDebug");
-let loadedMap = new Mapping();
+export const canvas = document.getElementById("testingCanvas");
+export const debugMessage = document.getElementById("outputDebug");
+export let loadedMap = new Mapping();
 
 //*Check if canvas is created - read data from local storage and draw it to the canvas
 if(canvas != null || canvas != undefined){
 
-      readFromLocal(loadedMap, draw, reverseCenterpoint, canvas);
+      readFromLocal(draw, reverseCenterpoint);
 
       console.log(`js loaded`);
       //*Get X and Y coordinates of mouse click on canvas

@@ -1,15 +1,13 @@
 import Shape from './shape.js';
 import { saveToLocal } from './localStorageAccess.js';
+import { canvas, debugMessage, loadedMap  } from './logic.js';
 
-let canvas = document.getElementById('testingCanvas');
-let loadedMap = [];
+// let canvas = document.getElementById('testingCanvas');
+// let loadedMap = [];
 
 //*Draws a shape on the canvas
-function draw(x,y, readFlag, canvas, LoadedMap){
-      loadedMap = LoadedMap;
-      //alert(`test`);
-      //debugger;
-      //alert(canvas);
+function draw(x,y, readFlag){
+
       if (canvas.getContext) {
             const ctx = canvas.getContext("2d");
             //Seems to act as a resolution multiplier
