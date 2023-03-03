@@ -1,8 +1,9 @@
-//@ts-check
+
 import Shape  from "./shape.js";
 import Mapping from "./mapping.js";
 
 const canvas = document.getElementById("testingCanvas");
+const debugMessage = document.getElementById("outputDebug");
 let loadedMap = new Mapping();
 
 if(canvas){
@@ -16,14 +17,23 @@ if(canvas){
       console.log(`js loaded`);
       //*Get X and Y coordinates of mouse click on canvas
       canvas.addEventListener('click', function(e) {
-            //console.log(`canvas width: ${canvas.width} canvas height: ${canvas.height}`);
+            
             var rect = canvas.getBoundingClientRect();
             var x = e.clientX - rect.left;
             var y = e.clientY - rect.top;
-
+            
+ 
       let pos = getMousePos(canvas, e);
 
-            draw(pos.x, pos.y);
+                 //Check if a item is selected
+                if(selectItem(pos.x, pos.y) == null || selectItem(pos.x, pos.y) == undefined){
+                  console.log(`no item selected`);
+                  console.log(selectItem(pos.x, pos.y));
+                  //If no item is selected, create a new item
+                  draw(pos.x, pos.y);
+                  return;
+                }
+
       }, false);
 }
 
@@ -37,12 +47,9 @@ function draw(x,y, readFlag){
 
             //Draw a rectangle
             let shape = createShape(x, y, 50, 50);
-            console.log(`shape created`);
-            console.table(shape);
 
-            console.log(`shape centre`);
             shape.getCenter();
-            console.table(shape);
+            //console.table(shape);
 
             //ctx.fillStyle = "rgba(0, 0, 200, 0.5)";
             ctx.fillStyle = shape.colour;
@@ -83,9 +90,6 @@ function saveToLocal(item){
       //readFromLocal();
       
       try {
-            console.log(typeof(item));
-            console.log(`item: ${item.x}`);
-            console.log(loadedMap);
             loadedMap.map.push(item);
             localStorage.setItem("canvas", JSON.stringify(loadedMap.map));
       } catch (error) {
@@ -129,5 +133,38 @@ function readFromLocal() {
 function reverseCenterpoint(element){
       element.x = element.x + element.width / 2;
       element.y = element.y + element.height / 2;   
+}
+
+//Select an item on the canvas
+function selectItem(x, y){
+      //Get the item at the x and y coordinates
+ //debugger;
+      loadedMap.map.forEach(element => {
+            const dx = x - element.x;
+            const dy = y - element.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+            if(distance <= element.width + 5){
+                  console.log(`item selected`);
+                 
+                  debugMessage.innerHTML = `Item Selected: ${element}`;
+
+                  return element;
+            }
+            
+            //If the item is selected, deselect it
+            //If the item is not selected, select it
+      });
+      return null;
+      
+}
+
+const clearButton = document.getElementById("clearButton");
+clearButton.addEventListener("click", clearCanvas);
+
+function clearCanvas(){
+      const ctx = canvas.getContext("2d");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      localStorage.clear();
+      loadedMap.map = [];
 }
 
