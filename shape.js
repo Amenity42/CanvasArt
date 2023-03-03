@@ -19,7 +19,7 @@ class Shape {
 
       colour(){
             let colour = `rgba(${this.randomNum()}, ${this.randomNum()}, ${this.randomNum()}, 0.5)`;
-            console.log(this.colour);
+            
             return(colour);
       }
 
