@@ -1,8 +1,9 @@
-import { canvas, loadedMap } from './logic.js';
+import { draw } from './canvasAction.js';
+import { canvas, loadedMap, reverseCenterpoint } from './logic.js';
 // import { draw } from './canvasAction.js';
 
 //*Saves data to local storage
-function saveToLocal(item) {
+function saveItemToLocal(item) {
 	// debugger;
 	//Save the canvas to local storage
 	//readFromLocal();
@@ -15,8 +16,15 @@ function saveToLocal(item) {
 	}
 	//console.table(loadedMap.map);
 }
+
+function saveAllToLocal() {
+
+
+      //console.table(loadedMap.map);
+}
 //*Reads data from local storage and updates the map object
-function readFromLocal(draw, reverseCenterpoint) {
+function readFromLocal(elementPosition) {
+
 	let readflag = true;
 
 	console.log(`Read Data From Local Storage`);
@@ -35,17 +43,41 @@ function readFromLocal(draw, reverseCenterpoint) {
 	mapData.forEach((element) => {
 		if (!element.adjustXY) {
 			reverseCenterpoint(element);
-			element.adjustXY = true;
+			element.adjustXY = true; //Somehow this is getting set to true else where
 		}
-		draw(element.x, element.y, readflag, canvas);
+
+            let pos = mapData.indexOf(element);
+            let updateSelectedColour = false;
+            
+            if(elementPosition == pos) {
+                  console.log(`Element Position: ${elementPosition}  Pos: ${pos}`);
+                  updateSelectedColour = true;
+            }
+            if(elementPosition == undefined || elementPosition == false && elementPosition == typeof Number) {
+                  updateSelectedColour = false;
+            }
+		draw(element.x, element.y, readflag, updateSelectedColour);
 	});
 	readflag = false;
 }
 
-function updateLocal() {
-	//This needs to update the canvas object as well as the local storage
-	localStorage.setItem('canvas', JSON.stringify(loadedMap.map));
-	// readFromLocal(draw, false);
+//* Need a function which updates the local storage with the current map object and then redraws the canvas
+function updateLocal(elementPosition) {
+      
+      //1 - Update the local storage
+      try {
+            localStorage.setItem('canvas', JSON.stringify(loadedMap.map));
+      } catch (error) {
+            console.log(`Error: ${error}`);
+      }
+
+      //2 - Update the canvas - clear canvas and redraw
+      //Clear canvas
+      canvas.width = canvas.width;
+
+      //Redraw canvas
+      readFromLocal(elementPosition);
+
 }
 
-export { saveToLocal, readFromLocal };
+export { saveItemToLocal, readFromLocal, saveAllToLocal, updateLocal };

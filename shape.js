@@ -5,8 +5,10 @@ class Shape {
 		this.width = w;
 		this.height = h;
 		this.colour = this.colour();
+            this.originalColour = this.colour;
 		this.colourWhenSelected = `rgba(255, 57, 72, 0.5)`;
 		this.adjustXY = false;
+            this.Selected = false;
 	}
 	getCenter() {
 		(this.x = this.x - this.width / 2),

@@ -1,5 +1,5 @@
 import Mapping from './mapping.js';
-import { saveToLocal, readFromLocal } from './localStorageAccess.js';
+import { saveItemToLocal, readFromLocal, updateLocal } from './localStorageAccess.js';
 import { draw, clearCanvas } from './canvasAction.js';
 import MouseActions from './mouseActions.js';
 
@@ -10,7 +10,8 @@ export let mouseActions = new MouseActions();
 
 //*Check if canvas is created - read data from local storage and draw it to the canvas
 if (canvas != null || canvas != undefined) {
-	readFromLocal(draw, reverseCenterpoint);
+      let update = false;
+	readFromLocal(update);
 
 	console.log(`js loaded`);
 	//*Get X and Y coordinates of mouse click on canvas
@@ -33,8 +34,10 @@ if (canvas != null || canvas != undefined) {
 				console.log(`no item selected`);
 
 				//If no item is selected, create a new item
-				draw(pos.x, pos.y, false, canvas, loadedMap);
+                        let updateSelectedColour = false;
+				draw(pos.x, pos.y, false, updateSelectedColour);
 				debugMessage.innerHTML = `Nothing Selected`;
+                        updateLocal(false);
 
 				return;
 			}
@@ -44,7 +47,7 @@ if (canvas != null || canvas != undefined) {
 }
 
 //*Used to reverse the centerpoint calculation when adding new shape to canvas
-function reverseCenterpoint(element) {
+export function reverseCenterpoint(element) {
 	element.x = element.x + element.width / 2;
 	element.y = element.y + element.height / 2;
 }

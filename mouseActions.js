@@ -1,5 +1,5 @@
-import { loadedMap, debugMessage, canvas } from './logic.js';
-import { saveToLocal } from './localStorageAccess.js';
+import { loadedMap, debugMessage, canvas, reverseCenterpoint } from './logic.js';
+import { saveItemToLocal, updateLocal } from './localStorageAccess.js';
 
 class MouseActions {
 	//*Select an item on the canvas
@@ -7,12 +7,12 @@ class MouseActions {
 		//Get the item at the x and y coordinates
 		//debugger;
 		let foundElement = null;
-		let elementCount = 0;
+		let elementPosition = 0;
 		loadedMap.map.forEach((element) => {
 			const dx = x - element.x;
 			const dy = y - element.y;
 			const distance = Math.sqrt(dx * dx + dy * dy);
-			elementCount++;
+			elementPosition++;
 			if (distance <= element.width + 5) {
 				console.log(`item selected`);
 				console.table(element);
@@ -20,7 +20,7 @@ class MouseActions {
                                                   </br> X: ${element.x}
                                                   </br> Y: ${element.y}
                                                   </br> Element: ${
-								elementCount - 1
+								elementPosition - 1
 							}
                                                  `;
 
@@ -30,6 +30,18 @@ class MouseActions {
 				//Will need a new function to update local and canvas
 				foundElement.colour =
 					foundElement.colourWhenSelected;
+                        foundElement.Selected = true;
+
+                        //Check array for any other selected and reverse colour and flag
+                        loadedMap.map.forEach((element) => {
+                              if (element.Selected == true && element != foundElement) {
+                                    element.colour = element.orginalColour;
+                                    element.Selected = false;
+                              }
+                              });
+                        
+                        updateLocal(elementPosition - 1);
+                        
 			}
 
 			//If the item is selected, deselect it
